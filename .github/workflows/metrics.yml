@@ -13,21 +13,6 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Debug PAT scopes and repo visibility
-        env:
-          GH_TOKEN: ${{ secrets.METRICS_TOKEN }}
-        run: |
-          echo "=== PAT scopes ==="
-          curl -sS -I -H "Authorization: Bearer $GH_TOKEN" https://api.github.com/user | grep -i "x-oauth-scopes\|x-accepted-oauth-scopes" || true
-          echo ""
-          echo "=== Private repos visible ==="
-          curl -sS -H "Authorization: Bearer $GH_TOKEN" "https://api.github.com/user/repos?visibility=private&per_page=50" | jq -r '.[] | "\(.full_name) (\(.language // "-"), \(.size)KB)"' || true
-          echo ""
-          echo "=== Language bytes per repo (GraphQL) ==="
-          curl -sS -H "Authorization: Bearer $GH_TOKEN" -H "Content-Type: application/json" \
-            -d '{"query":"{viewer{repositories(first:10,ownerAffiliations:OWNER){nodes{nameWithOwner isPrivate languages(first:10){edges{size node{name}}}}}}}"}' \
-            https://api.github.com/graphql | jq '.data.viewer.repositories.nodes'
-
       - name: Generate metrics
         uses: lowlighter/metrics@latest
         with:
@@ -42,14 +27,11 @@ jobs:
           plugin_isocalendar: yes
           plugin_isocalendar_duration: full-year
           plugin_languages: yes
-          plugin_languages_ignored: html, css, tex, less, dockerfile, makefile, cmake, scss, shell, vim script, batchfile, roff, roff manpage, rich text format, jupyter notebook
+          plugin_languages_ignored: html, css, tex, less, dockerfile, makefile, cmake, scss, shell, vim script, batchfile, roff, roff manpage, rich text format, jupyter notebook, powershell
           plugin_languages_details: bytes-size, percentage
           plugin_languages_limit: 8
           plugin_languages_sections: most-used
           plugin_languages_colors: github
-          plugin_languages_indepth: yes
-          plugin_languages_indepth_custom: ElvisGuterres/ShadowRealm, ElvisGuterres/ElevadorApisul
-          plugin_languages_analysis_timeout: 60
-          plugin_languages_analysis_timeout_repositories: 30
+          plugin_languages_indepth: no
           repositories_affiliations: owner, collaborator, organization_member
           commits_authoring: ElvisGuterres, elvisjunior2002@gmail.com

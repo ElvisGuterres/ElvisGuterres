@@ -13,11 +13,16 @@ jobs:
     permissions:
       contents: write
     steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.METRICS_TOKEN }}
+
       - name: Generate metrics
         uses: lowlighter/metrics@latest
         with:
           filename: github-metrics.svg
           token: ${{ secrets.METRICS_TOKEN }}
+          output_action: none
           user: ElvisGuterres
           template: classic
           base: header, activity, repositories, metadata
@@ -35,3 +40,64 @@ jobs:
           plugin_languages_indepth: no
           repositories_affiliations: owner, collaborator, organization_member
           commits_authoring: ElvisGuterres, elvisjunior2002@gmail.com
+
+      - name: Strip zeroed fields from SVG
+        run: |
+          cp /metrics_renders/github-metrics.svg github-metrics.svg 2>/dev/null || true
+          python3 <<'PY'
+          import re, os, sys
+          path = 'github-metrics.svg'
+          if not os.path.exists(path):
+              print('WARN: SVG not found at', path)
+              sys.exit(0)
+          with open(path, 'r', encoding='utf-8') as f:
+              svg = f.read()
+
+          def strip_zero_fields(html):
+              out, i = [], 0
+              while i < len(html):
+                  m = re.search(r'<div class="field[^"]*">', html[i:])
+                  if not m:
+                      out.append(html[i:])
+                      break
+                  start = i + m.start()
+                  j = i + m.end()
+                  depth = 1
+                  while j < len(html) and depth > 0:
+                      open_idx = html.find('<div', j)
+                      close_idx = html.find('</div>', j)
+                      if close_idx == -1:
+                          break
+                      if open_idx != -1 and open_idx < close_idx:
+                          depth += 1
+                          j = open_idx + 4
+                      else:
+                          depth -= 1
+                          j = close_idx + 6
+                  block = html[start:j]
+                  text = re.sub(r'<[^>]+>', ' ', block)
+                  text = re.sub(r'\s+', ' ', text).strip()
+                  if re.match(r'^0\s+\S', text) or text == '0 added, 0 removed':
+                      out.append(html[i:start])
+                  else:
+                      out.append(html[i:j])
+                  i = j
+              return ''.join(out)
+
+          svg = strip_zero_fields(svg)
+          with open(path, 'w', encoding='utf-8') as f:
+              f.write(svg)
+          print('Stripped zero fields, new size:', len(svg))
+          PY
+
+      - name: Commit metrics
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if ! git diff --quiet github-metrics.svg 2>/dev/null; then
+            git add github-metrics.svg
+            git commit -m "Update github-metrics.svg - [Skip GitHub Action]"
+            git push
+          else
+            echo "No SVG changes to commit"
+          fi

@@ -13,6 +13,21 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Debug PAT scopes and repo visibility
+        env:
+          GH_TOKEN: ${{ secrets.METRICS_TOKEN }}
+        run: |
+          echo "=== PAT scopes ==="
+          curl -sS -I -H "Authorization: Bearer $GH_TOKEN" https://api.github.com/user | grep -i "x-oauth-scopes\|x-accepted-oauth-scopes" || true
+          echo ""
+          echo "=== Private repos visible ==="
+          curl -sS -H "Authorization: Bearer $GH_TOKEN" "https://api.github.com/user/repos?visibility=private&per_page=50" | jq -r '.[] | "\(.full_name) (\(.language // "-"), \(.size)KB)"' || true
+          echo ""
+          echo "=== Language bytes per repo (GraphQL) ==="
+          curl -sS -H "Authorization: Bearer $GH_TOKEN" -H "Content-Type: application/json" \
+            -d '{"query":"{viewer{repositories(first:10,ownerAffiliations:OWNER){nodes{nameWithOwner isPrivate languages(first:10){edges{size node{name}}}}}}}"}' \
+            https://api.github.com/graphql | jq '.data.viewer.repositories.nodes'
+
       - name: Generate metrics
         uses: lowlighter/metrics@latest
         with:

@@ -56,33 +56,25 @@
 
 ---
 
-### 🚀 Featured projects
+### 🚀 Featured project
 
-<table>
-  <tr>
-    <td width="50%" valign="top">
-      <h4>🎲 <a href="https://github.com/ElvisGuterres/ShadowRealm">ShadowRealm</a></h4>
-      <sub><b>Virtual Tabletop for tabletop RPG</b></sub>
-      <p>Real-time multiplayer VTT with Spring Boot + React. Schema-driven character sheets (D&D 5e, Vampiro V20, One Piece RPG), WebSocket chat, Pixi.js board with drag-and-drop tokens, polygonal fog of war, 3D dice, Flyway migrations, MinIO storage, rate limiting, Sentry, Fly.io deploy.</p>
-      <sub>Java 21 · Spring Boot 3.5 · React 19 · TS · PostgreSQL · WebSocket/STOMP · Pixi.js</sub>
-    </td>
-    <td width="50%" valign="top">
-      <h4>📄 <a href="https://github.com/ElvisGuterres/envia-curriculo">envia-curriculo</a></h4>
-      <sub><b>AI-assisted resume tailoring pipeline</b></sub>
-      <p>Structured YAML data + templated rendering to produce ATS-friendly, visually polished PDFs tailored per job description. Zero API cost — orchestrated via Claude Code slash commands and local scripts.</p>
-      <sub>Node.js · YAML · HTML/CSS templates · Claude Code</sub>
-    </td>
-  </tr>
-</table>
+<h4>🎲 <a href="https://github.com/ElvisGuterres/ShadowRealm">ShadowRealm</a> — Virtual Tabletop for tabletop RPG</h4>
+
+Real-time multiplayer VTT where a Dungeon Master and players share a canvas, roll dice and track characters live. Built end-to-end — from Flyway migrations and WebSocket infra to the Pixi.js board and fog-of-war geometry.
+
+- **Backend:** Java 21 · Spring Boot 3.5 · Spring Security (JWT in HttpOnly cookies, BCrypt 12) · PostgreSQL + Flyway · JPA with JSONB schema-driven character sheets (D&D 5e, Vampiro V20, One Piece RPG) · WebSocket/STOMP broker · MinIO (S3-compatible) · Rate limiting + HTTP hardening headers · Sentry
+- **Frontend:** React 19 · TypeScript strict · Vite · Tailwind · Zustand · TanStack Query · React Hook Form + Zod · **Pixi.js** canvas board · `@dnd-kit` tokens · polygon-clipping fog of war · 3D dice physics · STOMP/SockJS reconnect
+- **DevOps:** Multi-stage Docker (non-root) · docker-compose (Postgres + MinIO) · GitHub Actions (CI, deploy, backup) · Fly.io deploy after green CI · JaCoCo coverage · Playwright E2E (auth, chat, canvas-sync, presence, reconnect)
 
 ---
 
-### 📊 GitHub stats
+### 📊 GitHub metrics
 
 <p align="center">
-  <img height="165" src="https://github-readme-stats.vercel.app/api?username=ElvisGuterres&show_icons=true&hide_border=true&include_all_commits=true&count_private=true&theme=tokyonight" alt="GitHub stats"/>
-  <img height="165" src="https://github-readme-stats.vercel.app/api/top-langs/?username=ElvisGuterres&layout=compact&hide_border=true&theme=tokyonight&langs_count=8" alt="Top languages"/>
+  <img src="./github-metrics.svg" alt="GitHub metrics"/>
 </p>
+
+<sub>⚙️ Generated daily by a self-hosted <a href="https://github.com/lowlighter/metrics">lowlighter/metrics</a> GitHub Action — includes activity from private repos, so the numbers reflect all the work, not just what's visible here.</sub>
 
 ---
 

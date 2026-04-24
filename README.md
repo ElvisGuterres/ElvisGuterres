@@ -17,7 +17,7 @@
 
 - 🛠️ 4+ years shipping full-stack systems — backend is my home, frontend is my playground.
 - ☕ Daily driver: **Java 21 · Spring Boot · PostgreSQL · React · TypeScript**.
-- 🧪 Testing is part of every ticket — JUnit + Mockito, Vitest + Testing Library, Playwright. One case I'm proud of: a critical Apisul service rescued from near-zero to ~89% coverage.
+- 🧪 Testing is part of every ticket — JUnit + Mockito, Vitest + Testing Library, Playwright. One case I'm proud of: a critical service rescued from near-zero to ~89% coverage.
 - 🧩 I like boring reliability: Flyway migrations, Kafka events, Redis cache, trunk-based flow, CI/CD that doesn't flake.
 - 🎲 Off-hours I build **ShadowRealm**, a Virtual Tabletop for tabletop RPG — real-time canvas, fog of war, dice physics.
 

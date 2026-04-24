@@ -17,8 +17,8 @@
 
 - 🛠️ 4+ years shipping full-stack systems — backend is my home, frontend is my playground.
 - ☕ Daily driver: **Java 21 · Spring Boot · PostgreSQL · React · TypeScript**.
-- 🧪 I don't leave without tests — at Apisul I took a critical service from **0% → 89% coverage** (6.000+ tests written) and killed the divergent `develop` branch in favor of a clean trunk-based flow.
-- 🧩 I like boring reliability: Flyway migrations, Kafka events, Redis cache, CI/CD that doesn't flake.
+- 🧪 Testing is part of every ticket — JUnit + Mockito, Vitest + Testing Library, Playwright. One case I'm proud of: a critical Apisul service rescued from near-zero to ~89% coverage.
+- 🧩 I like boring reliability: Flyway migrations, Kafka events, Redis cache, trunk-based flow, CI/CD that doesn't flake.
 - 🎲 Off-hours I build **ShadowRealm**, a Virtual Tabletop for tabletop RPG — real-time canvas, fog of war, dice physics.
 
 > Most of my work lives in private repos. This profile showcases the projects I can share publicly — the tech is the same I use every day at work.
